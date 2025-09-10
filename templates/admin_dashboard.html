@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard - MAU E-Recruitment{% endblock %}
+{% block content %}
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-poppins font-bold text-gray-800 mb-8 text-center animate-fade-in">Admin Dashboard</h2>
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition duration-300 mb-8">
+                <form action="{% url 'admin_dashboard' %}" method="POST" class="flex flex-col md:flex-row gap-4">
+                    {% csrf_token %}
+                    <input type="text" name="search_query" placeholder="Search by qualification, course, or experience" class="flex-grow p-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                    <select name="qualification_filter" class="p-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                        <option value="">All Qualifications</option>
+                        <option value="BSc">BSc</option>
+                        <option value="MSc">MSc</option>
+                        <option value="PhD">PhD</option>
+                    </select>
+                    <select name="state_filter" class="p-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                        <option value="">All States</option>
+                        <option value="Adamawa">Adamawa</option>
+                        <!-- Add more states as needed -->
+                    </select>
+                    <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded-full font-poppins font-medium hover:bg-blue-600 transition duration-300">Search</button>
+                </form>
+            </div>
+            {% if applicants %}
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition duration-300">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-poppins font-semibold text-gray-800">Applicants</h3>
+                        <a href="{% url 'export_applicants' %}" class="bg-yellow-400 text-gray-800 px-6 py-2 rounded-full font-poppins font-medium hover:bg-yellow-500 transition duration-300">Export to CSV</a>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full table-auto">
+                            <thead>
+                                <tr class="bg-blue-50">
+                                    <th class="px-4 py-3 text-left text-gray-700 font-poppins font-medium">Name</th>
+                                    <th class="px-4 py-3 text-left text-gray-700 font-poppins font-medium">Email</th>
+                                    <th class="px-4 py-3 text-left text-gray-700 font-poppins font-medium">Qualification</th>
+                                    <th class="px-4 py-3 text-left text-gray-700 font-poppins font-medium">Course</th>
+                                    <th class="px-4 py-3 text-left text-gray-700 font-poppins font-medium">Experience</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for applicant in applicants %}
+                                    <tr class="border-b hover:bg-blue-50 transition duration-200">
+                                        <td class="px-4 py-3">{{ applicant.first_name }} {{ applicant.surname }}</td>
+                                        <td class="px-4 py-3">{{ applicant.email }}</td>
+                                        <td class="px-4 py-3">{{ applicant.qualification }}</td>
+                                        <td class="px-4 py-3">{{ applicant.course }}</td>
+                                        <td class="px-4 py-3">{{ applicant.working_experience }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-center text-gray-600 font-inter">No applicants found.</p>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

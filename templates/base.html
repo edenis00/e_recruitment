@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MAU E-Recruitment System{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="font-inter bg-gray-50 text-gray-800">
+    <header class="bg-blue-500 text-white shadow-lg">
+        <div class="container mx-auto px-2 py-4 flex justify-between items-center">
+            <h1 class="text-3xl font-poppins font-bold">MAU E-Recruitment</h1>
+            <nav class="space-x-4">
+                <a href="{% url 'home' %}" class="hover:text-yellow-300 transition duration-300">Home</a>
+                <a href="{% url 'vacancies' %}" class="hover:text-yellow-300 transition duration-300">Vacancies</a>
+                <a href="{% url 'apply' %}" class="hover:text-yellow-300 transition duration-300">Apply</a>
+                <a href="{% url 'admin_login' %}" class="hover:text-yellow-300 transition duration-300">Admin</a>
+            </nav>
+        </div>
+    </header>
+    <main class="container mx-auto px-4 py-12">
+        {% if messages %}
+            <div class="mb-6">
+                {% for message in messages %}
+                    <div class="p-4 rounded-lg {% if message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer class="bg-blue-800 text-white py-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-poppins font-semibold mb-4">MAU E-Recruitment</h3>
+                    <p class="text-gray-200">Your gateway to a rewarding career at Modibbo Adama University.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-poppins font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'home' %}" class="text-gray-200 hover:text-yellow-300 transition">Home</a></li>
+                        <li><a href="{% url 'vacancies' %}" class="text-gray-200 hover:text-yellow-300 transition">Vacancies</a></li>
+                        <li><a href="{% url 'apply' %}" class="text-gray-200 hover:text-yellow-300 transition">Apply</a></li>
+                        <li><a href="{% url 'admin_login' %}" class="text-gray-200 hover:text-yellow-300 transition">Admin</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-poppins font-semibold mb-4">Contact Us</h3>
+                    <p class="text-gray-200">Modibbo Adama University, Yola, Adamawa State, Nigeria</p>
+                    <p class="text-gray-200">Email: <a href="mailto:recruitment@mau.edu.ng" class="hover:text-yellow-300 transition">recruitment@mau.edu.ng</a></p>
+                    <p class="text-gray-200">Phone: +234 123 456 7890</p>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-gray-200">
+                © 2025 Modibbo Adama University. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

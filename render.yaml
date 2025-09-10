@@ -1,0 +1,28 @@
+# filepath: c:\Users\El\OneDrive\Documents\Programming\Hakeem's Project\render.yaml
+services:
+  - type: web
+    name: e-recruitment
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn e_recruitment.wsgi:application
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        value: django-insecure-*$1dq+1j2-!k^wt!y%=%7sb3l=$1=n)8d=3sb8amzmma4-x$1%
+      - key: DB_DATABASE
+        value: e_recruitment_db
+      - key: DB_USERNAME
+        value: root
+      - key: DB_PASSWORD
+        value: mG6ctXEet9N9MVmFKX4Vo1FP51m5RdHM
+      - key: DB_HOST
+        value: dpg-d30uf995pdvs73ecicv0-a
+      - key: DB_PORT
+        value: 5432
+      - key: EMAIL_HOST_USER
+        value: elddrops@gmail.com
+      - key: EMAIL_HOST_PASSWORD
+        value: your-app-password
+      - key: DB_ENGINE
+        value: django.db.backends.postgresql

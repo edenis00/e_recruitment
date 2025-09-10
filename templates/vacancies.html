@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Vacancies - MAU E-Recruitment{% endblock %}
+{% block content %}
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-poppins font-bold text-gray-800 mb-8 text-center animate-fade-in">Current Vacancies</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition duration-300">
+                    <h3 class="text-xl font-poppins font-semibold text-gray-800">Senior Lecturer</h3>
+                    <p class="text-gray-600 mt-2">Department: Computer Science</p>
+                    <p class="text-gray-600">Qualification: PhD</p>
+                    <p class="text-gray-600">Deadline: 2025-08-15</p>
+                    <a href="{% url 'apply' %}" class="mt-4 inline-block bg-blue-500 text-white px-6 py-2 rounded-full font-poppins font-medium hover:bg-blue-600 transition duration-300">Apply Now</a>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition duration-300">
+                    <h3 class="text-xl font-poppins font-semibold text-gray-800">Administrative Officer</h3>
+                    <p class="text-gray-600 mt-2">Department: Human Resources</p>
+                    <p class="text-gray-600">Qualification: BSc</p>
+                    <p class="text-gray-600">Deadline: 2025-08-20</p>
+                    <a href="{% url 'apply' %}" class="mt-4 inline-block bg-blue-500 text-white px-6 py-2 rounded-full font-poppins font-medium hover:bg-blue-600 transition duration-300">Apply Now</a>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition duration-300">
+                    <h3 class="text-xl font-poppins font-semibold text-gray-800">Lab Technician</h3>
+                    <p class="text-gray-600 mt-2">Department: Chemistry</p>
+                    <p class="text-gray-600">Qualification: HND/BSc</p>
+                    <p class="text-gray-600">Deadline: 2025-08-25</p>
+                    <a href="{% url 'apply' %}" class="mt-4 inline-block bg-blue-500 text-white px-6 py-2 rounded-full font-poppins font-medium hover:bg-blue-600 transition duration-300">Apply Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

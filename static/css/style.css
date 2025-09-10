@@ -1,0 +1,33 @@
+/* Custom styles for smooth, professional look */
+.font-inter {
+    font-family: 'Inter', sans-serif;
+}
+.font-poppins {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+    animation: fadeIn 1s ease-in-out;
+}
+.animate-fade-in-delay {
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+/* Carousel styles (for homepage) */
+.carousel {
+    position: relative;
+}
+.carousel-item {
+    transition: opacity 0.5s ease-in-out;
+}
+.carousel-item.active {
+    display: block;
+}
+.carousel-item.hidden {
+    display: none;
+}

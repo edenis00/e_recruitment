@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-*$1dq+1j2-!k^wt!y%=%7sb3l=$1=n)8d=3sb8amzmma4-x$1%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://staff-e-recruitment-system.onrender.com", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["https://e-recruitment-hmw3.onrender.com", "127.0.0.1", "localhost"]
 
 
 # Application definition

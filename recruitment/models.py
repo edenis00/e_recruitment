@@ -10,7 +10,7 @@ class Applicant(models.Model):
     lga = models.CharField(max_length=20)
     dob = models.CharField(max_length=20)
     gender = models.CharField(max_length=20)
-    phone_no = models.IntegerField()
+    phone_no = models.CharField(max_length=20)
     email = models.CharField(max_length=20)
     address = models.CharField(max_length=20)
     permanent_address = models.CharField(max_length=20)

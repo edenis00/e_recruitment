@@ -7,6 +7,8 @@ from django.db.models import Q
 from django.http import HttpResponse
 from .models import Applicant
 import csv
+import requests
+from django.conf import settings
 
 
 def home(request):
@@ -17,8 +19,49 @@ def vacancies(request):
     return render(request, 'vacancies.html')
 
 
+def fetch_nin_data(nin):
+    """Mock NIN verification database"""
+    mock_nin_database = {
+        "12345678901": {
+            "first_name": "John",
+            "surname": "Doe",
+            "middle_name": "James",
+            "state": "Lagos",
+            "lga": "Ikeja",
+            "dob": "1990-01-01",
+            "gender": "Male",
+            "address": "123 Lagos Street",
+            "phone_no": "08012345678",
+            "email": "john.doe@example.com"
+        },
+        "98765432109": {
+            "first_name": "Mary",
+            "surname": "Smith",
+            "middle_name": "Jane",
+            "state": "Abuja",
+            "lga": "Municipal",
+            "dob": "1995-05-15",
+            "gender": "Female",
+            "address": "456 Abuja Road",
+            "phone_no": "08087654321",
+            "email": "mary.smith@example.com"
+        }
+    }
+    
+    return mock_nin_database.get(nin, None)
+
+
 def apply(request):
-    return render(request, 'apply.html')
+    context = {}
+    if request.method == 'POST' and 'nin' in request.POST:
+        nin = request.POST.get('nin')
+        nin_data = fetch_nin_data(nin)
+        if nin_data:
+            context.update(nin_data)
+            messages.success(request, 'NIN data loaded successfully!')
+        else:
+            messages.error(request, 'NIN not found. Please enter your details manually.')
+    return render(request, 'apply.html', context)
 
 
 def submit_application(request):
@@ -30,6 +73,7 @@ def submit_application(request):
                 messages.error(request, 'All required fields must be filled.')
                 return render(request, 'apply.html')
             applicant = Applicant(
+                nin=request.POST.get('nin', ''),
                 profession=request.POST['profession'],
                 surname=request.POST['surname'],
                 first_name=request.POST['first_name'],
@@ -83,15 +127,24 @@ def admin_dashboard(request):
         query = request.POST.get('search_query', '')
         qualification_filter = request.POST.get('qualification_filter', '')
         state_filter = request.POST.get('state_filter', '')
-        applicants = Applicant.objects.filter(
-            Q(qualification__icontains=query) |
-            Q(course__icontains=query) |
-            Q(working_experience__icontains=query)
-        )
+        nin_filter = request.POST.get('nin_filter', '')
+        filters = Q()
+        if query:
+            filters &= (
+                Q(qualification__icontains=query) |
+                Q(course__icontains=query) |
+                Q(working_experience__icontains=query) |
+                Q(first_name__icontains=query) |
+                Q(surname__icontains=query) |
+                Q(email__icontains=query)
+            )
         if qualification_filter:
-            applicants = applicants.filter(qualification=qualification_filter)
+            filters &= Q(qualification=qualification_filter)
         if state_filter:
-            applicants = applicants.filter(state=state_filter)
+            filters &= Q(state=state_filter)
+        if nin_filter:
+            filters &= Q(nin=nin_filter)
+        applicants = Applicant.objects.filter(filters)
     return render(request, 'admin_dashboard.html', {'applicants': applicants})
 
 
@@ -123,3 +176,13 @@ def export_applicants(request):
             applicant.state
         ])
     return response
+
+
+def send_status_update(applicant, status):
+    send_mail(
+        'Application Status Update',
+        f'Hello {applicant.first_name}, your application status is now: {status}',
+        'your_email@gmail.com',
+        [applicant.email],
+        fail_silently=False,
+    )

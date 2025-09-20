@@ -4,6 +4,13 @@
     <section class="py-16 bg-gray-50">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-poppins font-bold text-gray-800 mb-8 text-center animate-fade-in">Admin Dashboard</h2>
+            
+            {% if notification %}
+                <div class="bg-green-100 text-green-800 p-4 rounded mb-6 text-center font-poppins font-medium">
+                    New applicant submitted! (Email notification simulated)
+                </div>
+            {% endif %}
+            
             <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition duration-300 mb-8">
                 <form action="{% url 'admin_dashboard' %}" method="POST" class="flex flex-col md:flex-row gap-4">
                     {% csrf_token %}

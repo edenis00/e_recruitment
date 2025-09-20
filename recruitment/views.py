@@ -17,48 +17,15 @@ def vacancies(request):
     return render(request, 'vacancies.html')
 
 
-def fetch_nin_data(nin):
-    """Mock NIN verification database"""
-    mock_nin_database = {
-        "12345678901": {
-            "first_name": "John",
-            "surname": "Doe",
-            "middle_name": "James",
-            "state": "Lagos",
-            "lga": "Ikeja",
-            "dob": "1990-01-01",
-            "gender": "Male",
-            "address": "123 Lagos Street",
-            "phone_no": "08012345678",
-            "email": "john.doe@example.com"
-        },
-        "98765432109": {
-            "first_name": "Mary",
-            "surname": "Smith",
-            "middle_name": "Jane",
-            "state": "Abuja",
-            "lga": "Municipal",
-            "dob": "1995-05-15",
-            "gender": "Female",
-            "address": "456 Abuja Road",
-            "phone_no": "08087654321",
-            "email": "mary.smith@example.com"
-        }
-    }
-
-    return mock_nin_database.get(nin, None)
-
-
 def apply(request):
     context = {}
     if request.method == 'POST' and 'nin' in request.POST:
         nin = request.POST.get('nin')
-        nin_data = fetch_nin_data(nin)
-        if nin_data:
-            context.update(nin_data)
-            messages.success(request, 'NIN data loaded successfully!')
+        # Accept only if NIN is 11 digits and numeric (no characters)
+        if not nin or len(nin) != 11 or not nin.isdigit():
+            messages.error(request, 'Invalid NIN format. NIN must be exactly 11 digits and contain only numbers.')
         else:
-            messages.error(request, 'NIN not found. Please enter your details manually.')
+            messages.success(request, 'NIN verified successfully!')
     return render(request, 'apply.html', context)
 
 
@@ -89,15 +56,10 @@ def submit_application(request):
                 working_experience=request.POST['working_experience']
             )
             applicant.save()
-            send_mail(
-                'Application Received',
-                'Thank you for applying to MAU. We will review your\
-                    application and get back to you.',
-                'mau_e_recruitment@gmail.com',   
-                [request.POST['email']],
-                fail_silently=False,
-            )
-            messages.success(request, 'Application submitted successfully!')
+            # Fake email sending
+            messages.success(request, 'Application submitted successfully! Email sent (simulated).')
+            # Add notification for admin
+            request.session['new_applicant_notification'] = True
             return redirect('home')
         except ValidationError:
             messages.error(request, 'Invalid email format.')
@@ -121,6 +83,7 @@ def admin_dashboard(request):
         messages.error(request, 'Please log in to access the dashboard.')
         return redirect('admin_login')
     applicants = Applicant.objects.all()
+    notification = request.session.pop('new_applicant_notification', False)
     if request.method == 'POST':
         query = request.POST.get('search_query', '')
         qualification_filter = request.POST.get('qualification_filter', '')
@@ -143,7 +106,7 @@ def admin_dashboard(request):
         if nin_filter:
             filters &= Q(nin=nin_filter)
         applicants = Applicant.objects.filter(filters)
-    return render(request, 'admin_dashboard.html', {'applicants': applicants})
+    return render(request, 'admin_dashboard.html', {'applicants': applicants, 'notification': notification})
 
 
 def export_applicants(request):

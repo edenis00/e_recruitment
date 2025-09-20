@@ -7,8 +7,6 @@ from django.db.models import Q
 from django.http import HttpResponse
 from .models import Applicant
 import csv
-import requests
-from django.conf import settings
 
 
 def home(request):
@@ -47,7 +45,7 @@ def fetch_nin_data(nin):
             "email": "mary.smith@example.com"
         }
     }
-    
+
     return mock_nin_database.get(nin, None)
 
 
@@ -95,7 +93,7 @@ def submit_application(request):
                 'Application Received',
                 'Thank you for applying to MAU. We will review your\
                     application and get back to you.',
-                'your_email@gmail.com',  # Update in settings.py
+                'mau_e_recruitment@gmail.com',   
                 [request.POST['email']],
                 fail_silently=False,
             )

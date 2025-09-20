@@ -80,9 +80,43 @@
                         <select name="state" id="state" onchange="loadLGAs()" 
                                 class="w-full p-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition text-sm sm:text-base" required>
                             <option value="">Select State</option>
-                            {% for state in nigeriaNGStatesAndLGAs.keys %}
-                                <option value="{{ state }}" {% if state == state %}selected{% endif %}>{{ state }}</option>
-                            {% endfor %}
+                            <option value="Abia" {% if state == 'Abia' %}selected{% endif %}>Abia</option>
+                            <option value="Adamawa" {% if state == 'Adamawa' %}selected{% endif %}>Adamawa</option>
+                            <option value="Akwa Ibom" {% if state == 'Akwa Ibom' %}selected{% endif %}>Akwa Ibom</option>
+                            <option value="Anambra" {% if state == 'Anambra' %}selected{% endif %}>Anambra</option>
+                            <option value="Bauchi" {% if state == 'Bauchi' %}selected{% endif %}>Bauchi</option>
+                            <option value="Bayelsa" {% if state == 'Bayelsa' %}selected{% endif %}>Bayelsa</option>
+                            <option value="Benue" {% if state == 'Benue' %}selected{% endif %}>Benue</option>
+                            <option value="Borno" {% if state == 'Borno' %}selected{% endif %}>Borno</option>
+                            <option value="Cross River" {% if state == 'Cross River' %}selected{% endif %}>Cross River</option>
+                            <option value="Delta" {% if state == 'Delta' %}selected{% endif %}>Delta</option>
+                            <option value="Ebonyi" {% if state == 'Ebonyi' %}selected{% endif %}>Ebonyi</option>
+                            <option value="Edo" {% if state == 'Edo' %}selected{% endif %}>Edo</option>
+                            <option value="Ekiti" {% if state == 'Ekiti' %}selected{% endif %}>Ekiti</option>
+                            <option value="Enugu" {% if state == 'Enugu' %}selected{% endif %}>Enugu</option>
+                            <option value="FCT" {% if state == 'FCT' %}selected{% endif %}>FCT</option>
+                            <option value="Gombe" {% if state == 'Gombe' %}selected{% endif %}>Gombe</option>
+                            <option value="Imo" {% if state == 'Imo' %}selected{% endif %}>Imo</option>
+                            <option value="Jigawa" {% if state == 'Jigawa' %}selected{% endif %}>Jigawa</option>
+                            <option value="Kaduna" {% if state == 'Kaduna' %}selected{% endif %}>Kaduna</option>
+                            <option value="Kano" {% if state == 'Kano' %}selected{% endif %}>Kano</option>
+                            <option value="Katsina" {% if state == 'Katsina' %}selected{% endif %}>Katsina</option>
+                            <option value="Kebbi" {% if state == 'Kebbi' %}selected{% endif %}>Kebbi</option>
+                            <option value="Kogi" {% if state == 'Kogi' %}selected{% endif %}>Kogi</option>
+                            <option value="Kwara" {% if state == 'Kwara' %}selected{% endif %}>Kwara</option>
+                            <option value="Lagos" {% if state == 'Lagos' %}selected{% endif %}>Lagos</option>
+                            <option value="Nasarawa" {% if state == 'Nasarawa' %}selected{% endif %}>Nasarawa</option>
+                            <option value="Niger" {% if state == 'Niger' %}selected{% endif %}>Niger</option>
+                            <option value="Ogun" {% if state == 'Ogun' %}selected{% endif %}>Ogun</option>
+                            <option value="Ondo" {% if state == 'Ondo' %}selected{% endif %}>Ondo</option>
+                            <option value="Osun" {% if state == 'Osun' %}selected{% endif %}>Osun</option>
+                            <option value="Oyo" {% if state == 'Oyo' %}selected{% endif %}>Oyo</option>
+                            <option value="Plateau" {% if state == 'Plateau' %}selected{% endif %}>Plateau</option>
+                            <option value="Rivers" {% if state == 'Rivers' %}selected{% endif %}>Rivers</option>
+                            <option value="Sokoto" {% if state == 'Sokoto' %}selected{% endif %}>Sokoto</option>
+                            <option value="Taraba" {% if state == 'Taraba' %}selected{% endif %}>Taraba</option>
+                            <option value="Yobe" {% if state == 'Yobe' %}selected{% endif %}>Yobe</option>
+                            <option value="Zamfara" {% if state == 'Zamfara' %}selected{% endif %}>Zamfara</option>
                         </select>
                     </div>
                     <div>

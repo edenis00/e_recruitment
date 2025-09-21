@@ -3,13 +3,32 @@
 {% block content %}
     <section class="py-16 bg-gray-50">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-poppins font-bold text-gray-800 mb-8 text-center animate-fade-in">Admin Dashboard</h2>
-            
-            {% if notification %}
-                <div class="bg-green-100 text-green-800 p-4 rounded mb-6 text-center font-poppins font-medium">
-                    New applicant submitted! (Email notification simulated)
+            <div class="flex justify-center items-center gap-4 mb-8">
+                <h2 class="text-3xl font-poppins font-bold text-gray-800 text-center animate-fade-in">Admin Dashboard</h2>
+                <div class="relative">
+                    <button id="notif-btn" class="focus:outline-none">
+                        <!-- Bell Icon -->
+                        <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                        </svg>
+                        {% if notification %}
+                            <span class="absolute top-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white bg-red-500"></span>
+                        {% endif %}
+                    </button>
+                    <!-- Notification dropdown -->
+                    <div id="notif-dropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                        {% if notification %}
+                            <div class="p-4 text-green-800 font-poppins font-medium">
+                                <span class="block mb-2">🔔 New applicant submitted!</span>
+                                <span class="text-xs text-gray-500">Email notification simulated</span>
+                            </div>
+                        {% else %}
+                            <div class="p-4 text-gray-600 font-poppins text-center">No new notifications.</div>
+                        {% endif %}
+                    </div>
                 </div>
-            {% endif %}
+            </div>
             
             <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition duration-300 mb-8">
                 <form action="{% url 'admin_dashboard' %}" method="POST" class="flex flex-col md:flex-row gap-4">
@@ -23,8 +42,43 @@
                     </select>
                     <select name="state_filter" class="p-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
                         <option value="">All States</option>
+                        <option value="Abia">Abia</option>
                         <option value="Adamawa">Adamawa</option>
-                        <!-- Add more states as needed -->
+                        <option value="Akwa Ibom">Akwa Ibom</option>
+                        <option value="Anambra">Anambra</option>
+                        <option value="Bauchi">Bauchi</option>
+                        <option value="Bayelsa">Bayelsa</option>
+                        <option value="Benue">Benue</option>
+                        <option value="Borno">Borno</option>
+                        <option value="Cross River">Cross River</option>
+                        <option value="Delta">Delta</option>
+                        <option value="Ebonyi">Ebonyi</option>
+                        <option value="Edo">Edo</option>
+                        <option value="Ekiti">Ekiti</option>
+                        <option value="Enugu">Enugu</option>
+                        <option value="FCT">FCT</option>
+                        <option value="Gombe">Gombe</option>
+                        <option value="Imo">Imo</option>
+                        <option value="Jigawa">Jigawa</option>
+                        <option value="Kaduna">Kaduna</option>
+                        <option value="Kano">Kano</option>
+                        <option value="Katsina">Katsina</option>
+                        <option value="Kebbi">Kebbi</option>
+                        <option value="Kogi">Kogi</option>
+                        <option value="Kwara">Kwara</option>
+                        <option value="Lagos">Lagos</option>
+                        <option value="Nasarawa">Nasarawa</option>
+                        <option value="Niger">Niger</option>
+                        <option value="Ogun">Ogun</option>
+                        <option value="Ondo">Ondo</option>
+                        <option value="Osun">Osun</option>
+                        <option value="Oyo">Oyo</option>
+                        <option value="Plateau">Plateau</option>
+                        <option value="Rivers">Rivers</option>
+                        <option value="Sokoto">Sokoto</option>
+                        <option value="Taraba">Taraba</option>
+                        <option value="Yobe">Yobe</option>
+                        <option value="Zamfara">Zamfara</option>
                     </select>
                     <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded-full font-poppins font-medium hover:bg-blue-600 transition duration-300">Search</button>
                 </form>
@@ -44,6 +98,7 @@
                                     <th class="px-4 py-3 text-left text-gray-700 font-poppins font-medium">Qualification</th>
                                     <th class="px-4 py-3 text-left text-gray-700 font-poppins font-medium">Course</th>
                                     <th class="px-4 py-3 text-left text-gray-700 font-poppins font-medium">Experience</th>
+                                    <th class="px-4 py-3 text-left text-gray-700 font-poppins font-medium">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,6 +109,11 @@
                                         <td class="px-4 py-3">{{ applicant.qualification }}</td>
                                         <td class="px-4 py-3">{{ applicant.course }}</td>
                                         <td class="px-4 py-3">{{ applicant.working_experience }}</td>
+                                        <td class="px-4 py-3 flex gap-2">
+                                            <a href="{% url 'edit_applicant' applicant.id %}" class="bg-yellow-400 text-gray-800 px-4 py-2 rounded font-poppins font-medium hover:bg-yellow-500 transition duration-300">Edit</a>
+                                            <a href="{% url 'delete_applicant' applicant.id %}" class="bg-red-500 text-white px-4 py-2 rounded font-poppins font-medium hover:bg-red-600 transition duration-300"
+                                               onclick="return confirm('Are you sure you want to delete this applicant?');">Delete</a>
+                                        </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -66,3 +126,14 @@
         </div>
     </section>
 {% endblock %}
+<script>
+    const notifBtn = document.getElementById('notif-btn');
+    const notifDropdown = document.getElementById('notif-dropdown');
+    notifBtn.addEventListener('click', function(e) {
+        notifDropdown.classList.toggle('hidden');
+        e.stopPropagation();
+    });
+    document.addEventListener('click', function() {
+        notifDropdown.classList.add('hidden');
+    });
+</script>

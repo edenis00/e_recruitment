@@ -17,4 +17,6 @@ urlpatterns = [
         views.export_applicants,
         name='export_applicants'
     ),
+    path('admin/applicant/<int:pk>/edit/', views.edit_applicant, name='edit_applicant'),
+    path('admin/applicant/<int:pk>/delete/', views.delete_applicant, name='delete_applicant'),
 ]

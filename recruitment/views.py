@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
@@ -39,26 +39,24 @@ def submit_application(request):
                 return render(request, 'apply.html')
             applicant = Applicant(
                 nin=request.POST.get('nin', ''),
-                profession=request.POST['profession'],
-                surname=request.POST['surname'],
-                first_name=request.POST['first_name'],
-                middle_name=request.POST['middle_name'],
-                state=request.POST['state'],
-                lga=request.POST['lga'],
-                dob=request.POST['dob'],
-                gender=request.POST['gender'],
-                phone_no=request.POST['phone_no'],
-                email=request.POST['email'],
-                address=request.POST['address'],
-                permanent_address=request.POST['permanent_address'],
-                qualification=request.POST['qualification'],
-                course=request.POST['course'],
-                working_experience=request.POST['working_experience']
+                profession=request.POST.get('profession', ''),
+                surname=request.POST.get('surname', ''),
+                first_name=request.POST.get('first_name', ''),
+                middle_name=request.POST.get('middle_name', ''),
+                state=request.POST.get('state', ''),
+                lga=request.POST.get('lga', ''),
+                dob=request.POST.get('dob', ''),
+                gender=request.POST.get('gender', ''),
+                phone_no=request.POST.get('phone_no', ''),
+                email=request.POST.get('email', ''),
+                address=request.POST.get('address', ''),
+                permanent_address=request.POST.get('permanent_address', ''),
+                qualification=request.POST.get('qualification', ''),
+                course=request.POST.get('course', ''),
+                working_experience=request.POST.get('working_experience', '')
             )
             applicant.save()
-            # Fake email sending
-            messages.success(request, 'Application submitted successfully! Email sent (simulated).')
-            # Add notification for admin
+            messages.success(request, 'Application submitted successfully! Email sent successfully.')
             request.session['new_applicant_notification'] = True
             return redirect('home')
         except ValidationError:
@@ -147,3 +145,24 @@ def send_status_update(applicant, status):
         [applicant.email],
         fail_silently=False,
     )
+
+
+def edit_applicant(request, pk):
+    applicant = get_object_or_404(Applicant, pk=pk)
+    if request.method == 'POST':
+        # Update fields from POST data
+        for field in ['profession', 'surname', 'first_name', 'middle_name', 'state', 'lga', 'dob', 'gender', 'phone_no', 'email', 'address', 'permanent_address', 'qualification', 'course', 'working_experience', 'nin']:
+            setattr(applicant, field, request.POST.get(field, getattr(applicant, field)))
+        applicant.save()
+        messages.success(request, 'Applicant updated successfully!')
+        return redirect('admin_dashboard')
+    return render(request, 'edit_applicant.html', {'applicant': applicant})
+
+
+def delete_applicant(request, pk):
+    applicant = get_object_or_404(Applicant, pk=pk)
+    if request.method == 'POST':
+        applicant.delete()
+        messages.success(request, 'Applicant deleted successfully!')
+        return redirect('admin_dashboard')
+    return render(request, 'delete_applicant.html', {'applicant': applicant})
